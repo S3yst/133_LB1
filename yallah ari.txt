@@ -1,0 +1,88 @@
+Neues Verzeichnis erstellen.
+Überprüfen, bevor man ein neues Projekt macht.
+$ ruby --version
+$ sqlite3 --version
+$ node --version
+$ yarn --version
+
+Install rails:
+$ rails –version
+Falls rails nicht vorhanden oder veraltet ist, dann:
+$ gem install rails oder sudo apt-get install rails
+gem install rails -v 6.0.2
+
+Start Projekt:
+$ rails new esport
+
+Model erstellen:
+$ rails generate model klasse id: integer, klassenname: string, code: string, des1: string, des2: string, des3: string, created_at: datetime, updated_at: datetime
+
+$ rails generate model schueler id: integer, klasse: references, name: string, firstname: string, email: string, age: integer, sex: boolean, des1: string, des2: string, des3: string, created_at: datetime, updated_at: datetime 
+
+
+
+Beziehung definieren:
+Verzeichnis = app/models/xxx.rb
+
+
+class Group < ApplicationRecord
+  has_many :people
+end
+
+class Person < ApplicationRecord
+    belongs_to :group
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DB/migrate/timestamp_create_teams.rb
+class CreateTeams < ActiveRecord::Migration[6.1]
+  def change
+    create_table :teams do |t|
+      t.string :teamname
+      t.string :code
+      t.string :des1
+      t.string :des2
+      t.string :des3
+
+      t.timestamps
+    end
+  end
+end
+
+
+DB/migrate/timestamp_create_spielers.rb
+class CreateSpielers < ActiveRecord::Migration[6.1]
+  def change
+    create_table :spielers do |t|
+      t.references :team, foreign_key: true
+      t.string :name
+      t.string :firstname
+      t.string :email
+      t.string :age
+      t.string :sex
+      t.string :des1
+      t.string :des2
+      t.string :des3
+      t.timestamps
+    end
+  end
+end
+
+
+$ rails db:migrate
+Controller erstellen:
+$ rails generate controller teams index new 
+$ rails generate controller spielers index new
